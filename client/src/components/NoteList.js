@@ -1,6 +1,6 @@
 import React from 'react';
 
-class NoteList extends React.Component {
+export default class NoteList extends React.Component {
     render() {
       const notesToday = [{
         title: 'Test One',
@@ -81,5 +81,3 @@ class NoteList extends React.Component {
         );
     }
 }
-
-export default NoteList;
