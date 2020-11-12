@@ -1,41 +1,20 @@
-const WebSocket = require('ws');
-const WebSocketJSONStream = require('@teamwork/websocket-json-stream');
-const ShareDB = require('sharedb');
+const express = require('express');
 
-/**
- * By Default Sharedb uses JSON0 OT type.
- * To Make it compatible with our quill editor.
- * We are using this npm package called rich-text
- * which is based on quill delta
- */
-ShareDB.types.register(require('rich-text').type);
+const app = express();
 
-const shareDBServer = new ShareDB();
-const connection = shareDBServer.connect();
+var http = require('http').createServer(app);
 
-/**
- * 'documents' is collection name(table name in sql terms)
- * 'firstDocument' is the id of the document
- */
-const doc = connection.get('documents', 'firstDocument');
+var io = require('socket.io')(http);
 
-doc.fetch(function (err) {
-  if (err) throw err;
-  if (doc.type === null) {
-    /**
-     * If there is no document with id "firstDocument" in memory
-     * we are creating it and then starting up our ws server
-     */
-    doc.create([{ insert: 'Hello World!' }], 'rich-text', () => {
-      const wss = new WebSocket.Server({ port: 8080 });
+const routes = require('./routes');
+app.use('/api', routes)
 
-      wss.on('connection', function connection(ws) {
-        // For transport we are using a ws JSON stream for communication
-        // that can read and write js objects.
-        const jsonStream = new WebSocketJSONStream(ws);
-        shareDBServer.listen(jsonStream);
-      });
-    });
-    return;
-  }
+const PORT = 4000;
+
+http.listen(PORT, () => {
+    console.log(`listening on *:${PORT}`);
+});
+
+io.on('connection', (socket) => { 
+    console.log('new client connected');
 });
