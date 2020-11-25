@@ -1,0 +1,4 @@
+sudo mongod --dbpath=/Users/braeden/data/db
+
+client - npm start
+server - nodemon app.js

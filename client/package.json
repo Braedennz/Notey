@@ -19,6 +19,7 @@
     "react-scripts": "4.0.0",
     "rich-text": "^4.1.0",
     "sharedb": "^1.4.1",
+    "socket.io-client": "^3.0.1",
     "web-vitals": "^0.2.4",
     "ws": "^7.3.1"
   },

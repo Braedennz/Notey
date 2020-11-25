@@ -123,6 +123,11 @@ nav ul {
   margin-bottom: 0px;
 }
 
+nav li {
+  display: flex;
+  justify-content: center;
+}
+
 nav li a {
   display: flex;
   width: 44px;

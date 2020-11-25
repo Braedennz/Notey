@@ -1,0 +1,12 @@
+version: '3'
+services:
+  notey-server:
+    container_name: notey-server
+    build: 
+      context: ./server_docker
+      dockerfile: Dockerfile
+    command: npm run start
+    volumes:
+      - ./server_docker:/usr/src/app
+    ports:
+      - '8080:8080'
