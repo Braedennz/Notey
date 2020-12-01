@@ -1,14 +1,33 @@
-const express = require('express');
+let createError = require('http-errors')
+let express = require('express')
+let logger = require('morgan')
 
-// Constants
-const PORT = 8080;
-const HOST = '0.0.0.0';
+require('dotenv').config()
 
-// App
-const app = express();
-app.get('/', (req, res) => {
-  res.send('testasdfassssd');
-});
+let app = express()
+let cors = require('cors')
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+// view engine setup
+app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cors())
+
+require('./routes')(app)
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+	next(createError(404))
+})
+
+// error handler
+app.use(function (err, req, res, next) {
+	// set locals, only providing error in development
+  res.locals.message = err.message
+	res.locals.error = req.app.get('env') === 'development' ? err : {}
+	// render the error page
+	res.status(err.status || 500)
+	res.render('error')
+})
+
+module.exports = app
