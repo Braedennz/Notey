@@ -1,103 +1,63 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-export default class NoteList extends React.Component {
-	render() {
-		const notesToday = [
-			{
-				title: 'Test One',
-				time: '1:00 pm',
-				active: true,
-			},
-			{
-				title: 'Test Two',
-				time: '2:00 pm',
-				active: false,
-			},
-			{
-				title: 'Test Three',
-				time: '7:00 pm',
-				active: false,
-			},
-			{
-				title: 'Test Four',
-				time: '9:00 pm',
-				active: false,
-			},
-		]
+export default function NoteList() {
+	const [notesData, setNotesData] = useState({
+		loading: false,
+		notes: [],
+	})
 
-		const notesThisWeek = [
-			{
-				title: 'Test One',
-				time: '1:00 pm',
-				active: false,
-			},
-			{
-				title: 'Test Two',
-				time: '2:00 pm',
-				active: false,
-			},
-			{
-				title: 'Test Three',
-				time: '7:00 pm',
-				active: false,
-			},
-			{
-				title: 'Test Four',
-				time: '9:00 pm',
-				active: false,
-			},
-		]
+	useEffect(() => {
+		const apiUrl = `http://localhost:8080/api/notes/`
 
-		return (
-			<div class="d-flex flex-column h-100">
-				<div class="pt-3 px-2">
-					<h3>My Notes</h3>
-					<div>
-						<span class="badge badge-primary mr-1">All Time</span>
-						<span class="badge badge-light mr-1">Today</span>
-						<span class="badge badge-light mr-1">This Week</span>
-						<span class="badge badge-light">This Month</span>
-					</div>
-					<hr class="w-100" />
-				</div>
-				<div class="px-2 pb-2 overflow-auto">
-					<h6>Today</h6>
-					<ul class="list-group mb-3">
-						{notesToday.map((note) => {
-							return (
-								<li
-									className={
-										'list-group-item list-group-item-action d-flex flex-column ' +
-										(note.active ? 'active' : '')
-									}
-								>
-									<small>{note.time}</small>
-									<b>{note.title}</b>
-								</li>
-							)
-						})}
-					</ul>
-					<h6>This Week</h6>
-					<ul class="list-group">
-						{notesThisWeek.map((note) => {
-							return (
-								<li
-									className={
-										'list-group-item list-group-item-action d-flex flex-column ' +
-										(note.active ? 'active' : '')
-									}
-								>
-									<small>{note.time}</small>
-									<b>{note.title}</b>
-								</li>
-							)
-						})}
-					</ul>
-				</div>
-				<div id="new-note">
-					<div class="create w-100">Create New Note</div>
-				</div>
-			</div>
-		)
+		setNotesData({ loading: true, notes: [] })
+
+		fetch(apiUrl)
+			.then((res) => res.json())
+			.then((repos) => {
+				setNotesData({ loading: false, notes: repos.data })
+			})
+	}, [])
+
+	const { loading, notes } = notesData
+
+	if (loading) {
+		return <div>Loading</div>
 	}
+
+	return (
+		<div className="d-flex flex-column h-100">
+			<div className="pt-3 px-2">
+				<h3>My Notes</h3>
+				<div>
+					<span className="badge badge-primary mr-1">All Time</span>
+					<span className="badge badge-light mr-1">Today</span>
+					<span className="badge badge-light mr-1">This Week</span>
+					<span className="badge badge-light">This Month</span>
+				</div>
+				<hr className="w-100" />
+			</div>
+			<div className="px-2 pb-2 overflow-auto">
+				<h6>All Notes</h6>
+				<ul className="list-group mb-3">
+					{notes.map((note, noteIndex) => {
+						return (
+							<li
+								className={
+									'list-group-item list-group-item-action d-flex flex-column ' +
+									(note.active ? 'active' : '')
+								}
+								key={noteIndex}
+							>
+								<small>{note.time}</small>
+								<b>{note.title}</b>
+							</li>
+						)
+					})}
+				</ul>
+			</div>
+			<div id="new-note">
+				<div className="create w-100">Create New Note</div>
+			</div>
+		</div>
+	)
 }

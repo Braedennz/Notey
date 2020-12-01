@@ -6,7 +6,7 @@ import Main from './pages/Main'
 
 export default function App() {
 	return (
-		<div class="d-flex">
+		<div className="d-flex">
 			<Sidebar />
 			<div id="app-container">
 				<Switch>
