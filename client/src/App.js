@@ -10,9 +10,8 @@ export default function App() {
 			<Sidebar />
 			<div id="app-container">
 				<Switch>
-					<Route path="/">
-						<Main />
-					</Route>
+					<Route path="/" component={Main} exact />
+					<Route path="/notes/:id" component={Main} />
 				</Switch>
 			</div>
 		</div>

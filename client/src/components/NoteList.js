@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function NoteList() {
 	const [notesData, setNotesData] = useState({
 		loading: false,
 		notes: [],
+		error: null,
 	})
 
 	useEffect(() => {
@@ -16,12 +18,19 @@ export default function NoteList() {
 			.then((repos) => {
 				setNotesData({ loading: false, notes: repos.data })
 			})
+			.catch((err) => {
+				setNotesData({ loading: false, error: 'No good' })
+			})
 	}, [])
 
-	const { loading, notes } = notesData
+	const { loading, notes, error } = notesData
 
 	if (loading) {
 		return <div>Loading</div>
+	}
+
+	if (error) {
+		return <div>error</div>
 	}
 
 	return (
@@ -36,21 +45,22 @@ export default function NoteList() {
 				</div>
 				<hr className="w-100" />
 			</div>
-			<div className="px-2 pb-2 overflow-auto">
+			<div className="h-100 px-2 pb-2 overflow-auto">
 				<h6>All Notes</h6>
 				<ul className="list-group mb-3">
-					{notes.map((note, noteIndex) => {
+					{notes.map((note) => {
 						return (
-							<li
-								className={
-									'list-group-item list-group-item-action d-flex flex-column ' +
-									(note.active ? 'active' : '')
-								}
-								key={noteIndex}
-							>
-								<small>{note.time}</small>
-								<b>{note.title}</b>
-							</li>
+							<Link to={'/notes/' + note.id} key={note.id}>
+								<li
+									className={
+										'list-group-item list-group-item-action d-flex flex-column ' +
+										(note.active ? 'active' : '')
+									}
+								>
+									<small>{note.time}</small>
+									<b>{note.title}</b>
+								</li>
+							</Link>
 						)
 					})}
 				</ul>
