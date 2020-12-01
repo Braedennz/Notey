@@ -5,8 +5,20 @@ services:
     build: 
       context: ./server_docker
       dockerfile: Dockerfile
-    command: npm run start
     volumes:
-      - ./server_docker:/usr/src/app
+      - ./server_docker:/usr/src/server
     ports:
       - '8080:8080'
+  # notey-client:
+  #   container_name: notey-client
+  #   environment:
+  #     CHOKIDAR_USEPOLLING: "true"
+  #   build: 
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./client:/usr/src/client
+  #   ports:
+  #     - '3000:3000'
+  #   depends_on: 
+  #     - notey-server

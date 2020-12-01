@@ -3,13 +3,11 @@ FROM node:14
 # Create app directory
 WORKDIR /Users/AMacADay/Downloads/NoteApp/server_docker
 
-# Install app dependencies
-COPY package*.json ./
+WORKDIR /usr/src/server
+COPY package*.json /usr/src/
 
+RUN npm install -g nodemon
 RUN npm install
 
-# Bundle app source
-COPY . .
-
 EXPOSE 8080
-CMD [ "node", "app.js" ]
+CMD ["npm", "run", "start"]
