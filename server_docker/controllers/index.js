@@ -1,5 +1,5 @@
-const jobs = require('./jobs')
+const notes = require('./notes')
 
 module.exports = {
-	jobs,
+	notes,
 }

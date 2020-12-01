@@ -1,5 +1,5 @@
-const jobController = require('../controllers').jobs
+const noteController = require('../controllers').notes
 
 module.exports = (app) => {
-	app.get('/api/jobs', jobController.list)
+	app.get('/api/notes', noteController.list)
 }
