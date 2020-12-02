@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { RouteContext } from '../pages/Main'
+import { useContext } from 'react'
+
 export default function NoteList() {
+	const { params } = useContext(RouteContext)
+
 	const [notesData, setNotesData] = useState({
 		loading: false,
 		notes: [],
@@ -54,7 +59,7 @@ export default function NoteList() {
 								<li
 									className={
 										'list-group-item list-group-item-action d-flex flex-column ' +
-										(note.active ? 'active' : '')
+										(note.id == params.id ? 'active' : '')
 									}
 								>
 									<small>{note.time}</small>
