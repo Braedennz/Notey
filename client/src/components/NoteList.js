@@ -55,17 +55,21 @@ export default function NoteList() {
 				<ul className="list-group mb-3">
 					{notes.map((note) => {
 						return (
-							<Link to={'/notes/' + note.id} key={note.id}>
-								<li
-									className={
-										'list-group-item list-group-item-action d-flex flex-column ' +
-										(note.id == params.id ? 'active' : '')
-									}
+							<li
+								className={
+									'list-group-item list-group-item-action ' +
+									(note.id == params.id ? 'active' : '')
+								}
+							>
+								<Link
+									to={'/notes/' + note.id}
+									key={note.id}
+									className="d-flex flex-column"
 								>
 									<small>{note.time}</small>
 									<b>{note.title}</b>
-								</li>
-							</Link>
+								</Link>
+							</li>
 						)
 					})}
 				</ul>
