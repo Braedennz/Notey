@@ -7,7 +7,7 @@ import { io } from 'socket.io-client'
 
 function Editor() {
 	useEffect(() => {
-		const socket = io('localhost:4000', {
+		const socket = io('localhost:8080', {
 			transports: ['websocket', 'polling', 'flashsocket'],
 		})
 

@@ -12,11 +12,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cors())
 
-require('./routes')(app)
+const routes = require('./routes')
+app.use('/api', routes)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-	next(res.status(404).json())
+	next(res.status(404).json({}))
 })
 
 // error handler

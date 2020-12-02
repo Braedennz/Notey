@@ -1,24 +1,11 @@
-version: '3'
+version: "3"
 services:
   notey-server:
     container_name: notey-server
-    build: 
+    build:
       context: ./server_docker
       dockerfile: Dockerfile
     volumes:
       - ./server_docker:/usr/src/server
     ports:
-      - '8080:8080'
-  # notey-client:
-  #   container_name: notey-client
-  #   environment:
-  #     CHOKIDAR_USEPOLLING: "true"
-  #   build: 
-  #     context: ./client
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./client:/usr/src/client
-  #   ports:
-  #     - '3000:3000'
-  #   depends_on: 
-  #     - notey-server
+      - "8080:8080"

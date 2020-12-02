@@ -13,6 +13,16 @@ export default function NoteList() {
 		error: null,
 	})
 
+	function createNote() {
+		const newNote = {
+			id: Math.random(),
+			title: 'Untitled Note',
+			time: '1:00pm',
+		}
+
+		setNotesData({ loading: false, notes: [...notesData.notes, newNote] })
+	}
+
 	useEffect(() => {
 		const apiUrl = `http://localhost:8080/api/notes/`
 
@@ -60,10 +70,10 @@ export default function NoteList() {
 									'list-group-item list-group-item-action ' +
 									(note.id == params.id ? 'active' : '')
 								}
+								key={note.id}
 							>
 								<Link
 									to={'/notes/' + note.id}
-									key={note.id}
 									className="d-flex flex-column"
 								>
 									<small>{note.time}</small>
@@ -75,7 +85,9 @@ export default function NoteList() {
 				</ul>
 			</div>
 			<div id="new-note">
-				<div className="create w-100">Create New Note</div>
+				<div className="create w-100" onClick={createNote}>
+					Create New Note
+				</div>
 			</div>
 		</div>
 	)

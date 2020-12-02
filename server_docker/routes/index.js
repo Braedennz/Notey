@@ -1,6 +1,10 @@
 const noteController = require('../controllers').notes
 
-module.exports = (app) => {
-	app.get('/api/notes', noteController.list)
-	app.get('/api/notes/:id', noteController.getById)
-}
+const express = require('express')
+
+const router = express.Router()
+
+router.get('/notes', noteController.list)
+router.get('/notes/:id', noteController.getById)
+
+module.exports = router
