@@ -17,7 +17,7 @@ export default function NoteList() {
 		const newNote = {
 			id: Math.random(),
 			title: 'Untitled Note',
-			time: '1:00pm',
+			time: new Date(),
 		}
 
 		setNotesData({ loading: false, notes: [...notesData.notes, newNote] })
@@ -76,7 +76,7 @@ export default function NoteList() {
 									to={'/notes/' + note.id}
 									className="d-flex flex-column"
 								>
-									<small>{note.time}</small>
+									<small>{note.createdAt}</small>
 									<b>{note.title}</b>
 								</Link>
 							</li>

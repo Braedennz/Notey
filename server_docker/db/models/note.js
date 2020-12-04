@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 	Note.init(
 		{
 			title: DataTypes.STRING,
+			content: DataTypes.JSON,
 		},
 		{
 			sequelize,
