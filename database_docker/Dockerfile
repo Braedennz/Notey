@@ -1,0 +1,5 @@
+FROM mysql:latest
+
+ENV MYSQL_DATABASE noteyapp_development
+ENV MYSQL_PASSWORD test123
+ENV MYSQL_ROOT_PASSWORD root

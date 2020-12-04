@@ -1,24 +1,22 @@
-#!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
 
-let app = require('./app')
-let http = require('http')
+const app = require('./app')
+const http = require('http')
 
 /**
  * Get port from environment and store in Express.
  */
 
-let port = normalizePort(process.env.PORT || '8080')
+const port = normalizePort(process.env.PORT || '8080')
 app.set('port', port)
 
 /**
  * Create HTTP server.
  */
 
-let server = http.createServer(app)
+const server = http.createServer(app)
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -32,8 +30,8 @@ server.on('listening', onListening)
 /**
  * Listen for socket connections
  */
-let socketio = require('socket.io')
-let io = socketio(server, { origins: '*:*' })
+const socketio = require('socket.io')
+const io = socketio(server, { origins: '*:*' })
 
 const connections = []
 

@@ -9,3 +9,12 @@ services:
       - ./server_docker:/usr/src/server
     ports:
       - "8080:8080"
+    links:
+      - notey-database
+  notey-database:
+    container_name: notey-database
+    build:
+      context: ./database_docker
+      dockerfile: Dockerfile
+    ports:
+      - "3307:3306"
