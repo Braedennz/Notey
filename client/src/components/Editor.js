@@ -5,7 +5,7 @@ import 'quill/dist/quill.snow.css'
 
 import { io } from 'socket.io-client'
 
-export default function Editor() {
+export default function Editor({ notedata }) {
 	useEffect(() => {
 		const socket = io('localhost:8080', {
 			transports: ['websocket', 'polling', 'flashsocket'],
@@ -21,26 +21,15 @@ export default function Editor() {
 		let quill = new Quill('#editor', options)
 
 		/**
-		 * On Initialising if data is present in server
+		 * On initialising if data is present in server
 		 * Updaing its content to editor
 		 */
-		socket.on('set-text', (data) => {
+		socket.on('setText', (data) => {
 			quill.setContents(JSON.parse(data))
 		})
 
-		/** listening to changes in the document
-		 * that is coming from our server
-		 */
-		socket.on('updated-text', (data) => {
-			if (!data) {
-				return
-			}
-
-			quill.updateContents(JSON.parse(data))
-		})
-
 		/**
-		 * On Text change publishing to our server
+		 * On text change publishing to our server
 		 * so that it can be broadcasted to all other clients
 		 */
 		quill.on('text-change', function (delta, oldDelta, source) {
@@ -48,8 +37,10 @@ export default function Editor() {
 
 			let text = quill.getContents().ops
 
-			socket.emit('update-text', text)
+			socket.emit('updateText', text)
 		})
+
+		socket.emit('loadNoteById', notedata.id)
 
 		return () => socket.disconnect()
 	}, [])

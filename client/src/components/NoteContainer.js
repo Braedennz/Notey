@@ -71,7 +71,7 @@ export default function NoteContainer() {
 
 			<div className="card mt-3">
 				<div className="card-body">
-					<Editor />
+					<Editor notedata={currentNote} />
 				</div>
 			</div>
 		</div>

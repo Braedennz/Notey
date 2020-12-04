@@ -33,23 +33,16 @@ server.on('listening', onListening)
 const socketio = require('socket.io')
 const io = socketio(server, { origins: '*:*' })
 
-const connections = []
+const Editor = require('./editor')
 
-let textData = null
+const connections = []
 
 io.on('connection', (socket) => {
 	connections.push(socket)
 
 	console.log(`client connected, ${connections.length} sockets are connected`)
 
-	if (textData) {
-		socket.emit('set-text', textData)
-	}
-
-	socket.on('update-text', (data) => {
-		textData = JSON.stringify(data)
-		//socket.emit('updated-text', data);
-	})
+	new Editor(socket)
 
 	socket.on('disconnect', () => {
 		connections.splice(connections.indexOf(socket), 1)
