@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useHistory } from 'react-router-dom'
 
 import Moment from 'moment'
 import api from '../api'
 
 export default function NoteList() {
 	const { id } = useParams()
+	const history = useHistory()
 
 	const [notesData, setNotesData] = useState({
 		loading: false,
@@ -14,13 +15,24 @@ export default function NoteList() {
 	})
 
 	function createNote() {
-		const newNote = {
-			id: Math.random(),
+		api.createNote({
 			title: 'Untitled Note',
-			time: new Date(),
-		}
+			content: null,
+		})
+			.then((res) => res.json())
+			.then((response) => {
+				let newNoteData = response.data
 
-		setNotesData({ loading: false, notes: [...notesData.notes, newNote] })
+				setNotesData({
+					loading: false,
+					notes: [...notesData.notes, newNoteData],
+				})
+
+				history.push('/notes/' + newNoteData.id)
+			})
+			.catch((e) => {
+				console.log(e)
+			})
 	}
 
 	useEffect(() => {
