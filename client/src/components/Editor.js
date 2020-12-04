@@ -35,9 +35,9 @@ export default function Editor({ notedata }) {
 		quill.on('text-change', function (delta, oldDelta, source) {
 			if (source !== 'user') return
 
-			let text = quill.getContents().ops
+			let text = quill.getContents()
 
-			socket.emit('updateText', text)
+			socket.emit('updateText', JSON.stringify(text))
 		})
 
 		socket.emit('loadNoteById', notedata.id)

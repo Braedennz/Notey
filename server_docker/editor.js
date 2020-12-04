@@ -11,16 +11,32 @@ class Editor {
 	}
 
 	loadNoteById(id) {
-		return note
-			.findByPk(id)
+		this.noteId = id
+
+		note.findByPk(id)
 			.then((note) => {
-				this.socket.emit('setText', JSON.stringify(note.content))
+				this.socket.emit('setText', note.content)
 			})
-			.catch((error) => {})
+			.catch((error) => {
+				console.log(e)
+			})
 	}
 
 	updateText(data) {
-		console.log(JSON.stringify(data))
+		note.update(
+			{ content: data },
+			{
+				where: {
+					id: this.noteId,
+				},
+			}
+		)
+			.then((response) => {
+				console.log('updated')
+			})
+			.catch((e) => {
+				console.log(e)
+			})
 	}
 }
 

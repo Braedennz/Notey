@@ -11,9 +11,15 @@ module.exports = {
 				title: faker.lorem.sentence(3, 6),
 				content: JSON.stringify({
 					ops: [
-						{ insert: 'Gandalf', attributes: { bold: true } },
-						{ insert: ' the ' },
-						{ insert: 'Grey', attributes: { color: '#cccccc' } },
+						{
+							insert: faker.lorem.paragraph(2),
+							attributes: { bold: true },
+						},
+						{ insert: faker.lorem.sentence(3) },
+						{
+							insert: faker.lorem.sentence(5),
+							attributes: { color: '#cccccc' },
+						},
 					],
 				}),
 				createdAt: faker.date.recent(20),
