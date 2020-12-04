@@ -36,7 +36,10 @@ function InputTitle({ noteTitle, handleChange, cancelChanges, saveChanges }) {
 	)
 }
 
-export default function NoteContainerHeader({ currentNote }) {
+export default function NoteContainerHeader({
+	currentNote,
+	updateCurrentNote,
+}) {
 	const [isEditing, setEditing] = useState(false)
 	const [noteTitle, setNoteTitle] = useState(currentNote.title)
 
@@ -56,11 +59,15 @@ export default function NoteContainerHeader({ currentNote }) {
 	function saveTitle() {
 		setEditing(false)
 
-		api.updateNote(currentNote.id, {
+		let updatedNoteData = {
 			title: noteTitle,
-		})
+		}
+
+		api.updateNote(currentNote.id, updatedNoteData)
 			.then((response) => {
 				console.log(response)
+
+				updateCurrentNote(updatedNoteData)
 			})
 			.catch((e) => {
 				console.log(e)

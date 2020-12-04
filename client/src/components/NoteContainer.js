@@ -31,6 +31,15 @@ export default function NoteContainer() {
 		loadNoteDataById()
 	}, [id])
 
+	function updateCurrentNote(data) {
+		setNoteData({
+			currentNote: {
+				...currentNote,
+				...data,
+			},
+		})
+	}
+
 	const { loading, currentNote } = noteData
 
 	if (loading) {
@@ -43,7 +52,10 @@ export default function NoteContainer() {
 
 	return (
 		<div>
-			<NoteContainerHeader currentNote={currentNote} />
+			<NoteContainerHeader
+				currentNote={currentNote}
+				updateCurrentNote={updateCurrentNote}
+			/>
 
 			<div className="card mt-3">
 				<div className="card-body">
