@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import api from '../api'
+import { NoteContext } from '../pages/Main'
 
 import Editor from './Editor'
 import NoteContainerHeader from './NoteContainerHeader'
@@ -9,21 +10,23 @@ import NoteContainerHeader from './NoteContainerHeader'
 export default function NoteContainer() {
 	const { id } = useParams()
 
-	const [noteData, setNoteData] = useState({
+	const [currentNoteData, setCurrentNoteData] = useState({
 		currentNote: null,
 		loading: false,
 	})
 
+	const [noteData, setNoteData] = useContext(NoteContext)
+
 	function loadNoteDataById() {
-		setNoteData({ loading: true, currentNote: null })
+		setCurrentNoteData({ loading: true, currentNote: null })
 
 		api.getNoteById(id)
 			.then((res) => res.json())
 			.then((note) => {
-				setNoteData({ loading: false, currentNote: note.data })
+				setCurrentNoteData({ loading: false, currentNote: note.data })
 			})
 			.catch((err) => {
-				setNoteData({ loading: false, currentNote: null })
+				setCurrentNoteData({ loading: false, currentNote: null })
 			})
 	}
 
@@ -32,15 +35,28 @@ export default function NoteContainer() {
 	}, [id])
 
 	function updateCurrentNote(data) {
-		setNoteData({
-			currentNote: {
-				...currentNote,
-				...data,
-			},
-		})
+		api.updateNote(currentNote.id, data)
+			.then((response) => {
+				setCurrentNoteData({
+					currentNote: {
+						...currentNote,
+						...data,
+					},
+				})
+
+				let notes = [...noteData.notes]
+				let noteIndex = notes.findIndex((n) => n.id == id)
+
+				notes[noteIndex] = { ...notes[noteIndex], ...data }
+
+				setNoteData({ notes: notes })
+			})
+			.catch((e) => {
+				console.log(e)
+			})
 	}
 
-	const { loading, currentNote } = noteData
+	const { loading, currentNote } = currentNoteData
 
 	if (loading) {
 		return <div>Loading</div>

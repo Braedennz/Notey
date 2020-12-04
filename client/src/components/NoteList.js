@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 import Moment from 'moment'
 import api from '../api'
 
+import { NoteContext } from '../pages/Main'
+
 export default function NoteList() {
 	const { id } = useParams()
 	const history = useHistory()
 
-	const [notesData, setNotesData] = useState({
+	const [listStatusData, setListStatusData] = useState({
 		loading: false,
-		notes: [],
 		error: null,
 	})
+
+	const [noteData, setNoteData] = useContext(NoteContext)
 
 	function createNote() {
 		api.createNote({
@@ -23,9 +26,8 @@ export default function NoteList() {
 			.then((response) => {
 				let newNoteData = response.data
 
-				setNotesData({
-					loading: false,
-					notes: [...notesData.notes, newNoteData],
+				setNoteData({
+					notes: [newNoteData, ...noteData.notes],
 				})
 
 				history.push('/notes/' + newNoteData.id)
@@ -36,19 +38,21 @@ export default function NoteList() {
 	}
 
 	useEffect(() => {
-		setNotesData({ loading: true, notes: [] })
+		setListStatusData({ loading: true })
 
 		api.getAllNotes()
 			.then((res) => res.json())
 			.then((repos) => {
-				setNotesData({ loading: false, notes: repos.data })
+				setListStatusData({ loading: false })
+				setNoteData({ notes: repos.data })
 			})
 			.catch((err) => {
-				setNotesData({ loading: false, error: 'No good' })
+				setListStatusData({ loading: false, error: 'No good' })
 			})
 	}, [])
 
-	const { loading, notes, error } = notesData
+	const { loading, error } = listStatusData
+	const { notes } = noteData
 
 	if (loading) {
 		return <div>Loading</div>

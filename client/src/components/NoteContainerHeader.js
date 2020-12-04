@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
-import api from '../api'
 
 function TextTitle({ title, editTitle }) {
 	return <h4 onClick={editTitle}>{title}</h4>
@@ -59,19 +58,9 @@ export default function NoteContainerHeader({
 	function saveTitle() {
 		setEditing(false)
 
-		let updatedNoteData = {
+		updateCurrentNote({
 			title: noteTitle,
-		}
-
-		api.updateNote(currentNote.id, updatedNoteData)
-			.then((response) => {
-				console.log(response)
-
-				updateCurrentNote(updatedNoteData)
-			})
-			.catch((e) => {
-				console.log(e)
-			})
+		})
 	}
 
 	return (

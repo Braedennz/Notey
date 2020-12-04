@@ -14,6 +14,7 @@ module.exports = {
 		return note
 			.findAll({
 				attributes: ['id', 'title', 'createdAt'],
+				order: [['createdAt', 'DESC']],
 			})
 			.then((notes) => {
 				return res.status(200).json(response.build(notes))
