@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-
-import { RouteContext } from '../pages/Main'
-import { useContext } from 'react'
+import { useParams, Link } from 'react-router-dom'
 
 import Moment from 'moment'
 import api from '../api'
 
 export default function NoteList() {
-	const { params } = useContext(RouteContext)
+	const { id } = useParams()
 
 	const [notesData, setNotesData] = useState({
 		loading: false,
@@ -69,7 +66,7 @@ export default function NoteList() {
 							<li
 								className={
 									'list-group-item list-group-item-action ' +
-									(note.id == params.id ? 'active' : '')
+									(note.id == id ? 'active' : '')
 								}
 								key={note.id}
 							>

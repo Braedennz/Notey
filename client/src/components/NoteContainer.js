@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
-
-import { useContext } from 'react'
-import { RouteContext } from '../pages/Main'
 
 import Editor from './Editor'
 import api from '../api'
 
 export default function NoteContainer() {
-	const { params } = useContext(RouteContext)
+	const { id } = useParams()
 
 	const [noteData, setNoteData] = useState({
 		currentNote: null,
 		loading: false,
 	})
 
-	useEffect(() => {
+	function loadNoteDataById() {
 		setNoteData({ loading: true, currentNote: null })
 
-		api.getNoteById(params.id)
+		api.getNoteById(id)
 			.then((res) => res.json())
 			.then((note) => {
 				setNoteData({ loading: false, currentNote: note.data })
@@ -28,7 +26,11 @@ export default function NoteContainer() {
 			.catch((err) => {
 				setNoteData({ loading: false, currentNote: null })
 			})
-	}, [])
+	}
+
+	useEffect(() => {
+		loadNoteDataById()
+	}, [id])
 
 	const { loading, currentNote } = noteData
 
