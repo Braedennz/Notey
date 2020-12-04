@@ -5,7 +5,7 @@ import 'quill/dist/quill.snow.css'
 
 import { io } from 'socket.io-client'
 
-function Editor() {
+export default function Editor() {
 	useEffect(() => {
 		const socket = io('localhost:8080', {
 			transports: ['websocket', 'polling', 'flashsocket'],
@@ -101,5 +101,3 @@ function Editor() {
 		</div>
 	)
 }
-
-export default Editor

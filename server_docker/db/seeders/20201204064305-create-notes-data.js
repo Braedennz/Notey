@@ -16,7 +16,7 @@ module.exports = {
 						{ insert: 'Grey', attributes: { color: '#cccccc' } },
 					],
 				}),
-				createdAt: new Date(),
+				createdAt: faker.date.recent(20),
 				updatedAt: new Date(),
 			})
 		}

@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 import { RouteContext } from '../pages/Main'
 import { useContext } from 'react'
 
+import Moment from 'moment'
+import api from '../api'
+
 export default function NoteList() {
 	const { params } = useContext(RouteContext)
 
@@ -24,11 +27,9 @@ export default function NoteList() {
 	}
 
 	useEffect(() => {
-		const apiUrl = `http://localhost:8080/api/notes/`
-
 		setNotesData({ loading: true, notes: [] })
 
-		fetch(apiUrl)
+		api.getAllNotes()
 			.then((res) => res.json())
 			.then((repos) => {
 				setNotesData({ loading: false, notes: repos.data })
@@ -76,7 +77,9 @@ export default function NoteList() {
 									to={'/notes/' + note.id}
 									className="d-flex flex-column"
 								>
-									<small>{note.createdAt}</small>
+									<small>
+										{Moment(note.createdAt).format('d MMM')}
+									</small>
 									<b>{note.title}</b>
 								</Link>
 							</li>

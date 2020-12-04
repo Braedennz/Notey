@@ -1,11 +1,9 @@
-import axios from 'axios'
+const api = 'http://localhost:8080/api'
 
-const api = axios.create({
-	baseURL: 'http://localhost:4000/api',
-})
-
-export const getAllNotes = () => api.get(`/notes`)
+export const getAllNotes = () => fetch(`${api}/notes`)
+export const getNoteById = (id) => fetch(`${api}/notes/${id}`)
 
 export default {
 	getAllNotes,
+	getNoteById,
 }
